@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@400;600;700&display=swap');
+
+:root {
+  /* Paleta de Cores - Tons naturais e terrosos */
+  --gf-green-primary: #2b7a4b;
+  --gf-green-dark: #1e5232;
+  --gf-green-light: #d8eedf;
+  --gf-gold: #f5b041;
+  --gf-gold-dark: #d49333;
+  --gf-text-main: #2c3e50;
+  --gf-text-muted: #64748b;
+  --gf-bg-main: #fafbf9;
+  --gf-bg-card: #ffffff;
+  
+  /* Tipografia */
+  --gf-font-heading: 'Sora', sans-serif;
+  --gf-font-body: 'DM Sans', sans-serif;
+  
+  /* Sombras e Bordas - "cards, sombras leves e bordas arredondados" */
+  --gf-shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+  --gf-shadow-md: 0 8px 24px rgba(43, 122, 75, 0.08);
+  --gf-radius: 16px;
+  --gf-radius-sm: 8px;
+}
+
+body {
+  font-family: var(--gf-font-body);
+  color: var(--gf-text-main);
+  background-color: var(--gf-bg-main);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+  font-family: var(--gf-font-heading);
+  font-weight: 600;
+  color: var(--gf-green-dark);
+}
+
+/* Utilitários Customizados */
+.text-primary-gf { color: var(--gf-green-primary) !important; }
+.bg-primary-gf { background-color: var(--gf-green-primary) !important; }
+.text-gold-gf { color: var(--gf-gold) !important; }
+
+/* Botões */
+.btn-gf-primary {
+  background-color: var(--gf-green-primary);
+  color: white;
+  border-radius: var(--gf-radius-sm);
+  padding: 10px 24px;
+  font-weight: 500;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-gf-primary:hover {
+  background-color: var(--gf-green-dark);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--gf-shadow-md);
+}
+
+.btn-gf-accent {
+  background-color: var(--gf-gold);
+  color: var(--gf-green-dark);
+  border-radius: var(--gf-radius-sm);
+  padding: 12px 28px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-gf-accent:hover {
+  background-color: var(--gf-gold-dark);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-gf-outline {
+  background-color: transparent;
+  color: var(--gf-green-primary);
+  border: 2px solid var(--gf-green-primary);
+  border-radius: var(--gf-radius-sm);
+  padding: 10px 24px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-gf-outline:hover {
+  background-color: var(--gf-green-light);
+  color: var(--gf-green-dark);
+}
+
+/* Navbar */
+.navbar-gf {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--gf-shadow-sm);
+  padding: 15px 0;
+}
+
+.nav-link {
+  color: var(--gf-text-muted);
+  font-weight: 500;
+  margin: 0 10px;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--gf-green-primary);
+}
+
+/* Cards */
+.gf-card {
+  background: var(--gf-bg-card);
+  border-radius: var(--gf-radius);
+  border: none;
+  box-shadow: var(--gf-shadow-sm);
+  padding: 24px;
+}
+
+/* Inputs do Simulador */
+.form-control-gf {
+  border: 2px solid #e2e8f0;
+  border-radius: var(--gf-radius-sm);
+  padding: 12px 16px;
+  font-family: var(--gf-font-body);
+  color: var(--gf-text-main);
+  transition: border-color 0.2s;
+}
+
+.form-control-gf:focus {
+  border-color: var(--gf-green-primary);
+  box-shadow: 0 0 0 3px var(--gf-green-light);
+  outline: none;
+}
+
+.form-label-gf {
+  font-weight: 500;
+  color: var(--gf-text-main);
+  margin-bottom: 8px;
+}
+
+/* SPA Views */
+.spa-view {
+  display: none;
+}
+
+.spa-view.active {
+  display: block;
+}
+
+/* Hero Section */
+.hero-section {
+  padding: 60px 0 40px;
+  position: relative;
+}
+
+/* Dashboard Results */
+.metric-value {
+  font-family: var(--gf-font-heading);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--gf-green-dark);
+}
+
+.metric-label {
+  font-size: 0.85rem;
+  color: var(--gf-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* Chart Container */
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+/* Footer */
+.footer-gf {
+  background-color: var(--gf-green-dark);
+  color: white;
+  padding: 40px 0 20px;
+  margin-top: 60px;
+}
+
+.footer-gf p {
+  color: rgba(255,255,255,0.7);
+}
+
+.footer-gf h4, .footer-gf h5, .footer-gf h6 {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 30px 0;
+    text-align: center;
+  }
+}

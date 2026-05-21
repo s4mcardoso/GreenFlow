@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GreenFlow é um simulador web de payback para energia solar fotovoltaica. Descubra em quanto tempo o investimento em painéis solares se paga e quanto CO₂ você deixa de emitir.">
+    <title>GreenFlow - Simulador de Payback Solar</title>
+    <!-- Favicon SVG -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-gf sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#" onclick="app.navigate('home')">
+                <i class="ph-fill ph-leaf text-primary-gf me-2 fs-3"></i>
+                GreenFlow
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="nav-home" onclick="app.navigate('home')">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-simulator" onclick="app.navigate('simulator')">Simulador</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="nav-about" onclick="app.navigate('about')">Sobre o Projeto</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT - SPA VIEWS -->
+    <main>
+        
+        <!-- ================= HOME VIEW ================= -->
+        <section id="view-home" class="spa-view active">
+            <!-- Hero -->
+            <div class="hero-section container">
+                <div class="row align-items-center" style="min-height: 60vh;">
+                    <div class="col-lg-7 mb-5 mb-lg-0">
+                        <h1 class="display-5 fw-bold mb-3">Quanto tempo leva pra energia solar se pagar?</h1>
+                        <p class="fs-5 text-muted mb-4">
+                            A gente sabe que trocar pra energia solar parece complicado. Por isso criamos esse simulador: você coloca o valor da sua conta de luz e a gente mostra, de forma direta, quanto você economizaria e em quanto tempo o investimento volta pro seu bolso.
+                        </p>
+                        <div class="d-flex gap-3 flex-wrap">
+                            <button class="btn btn-gf-accent btn-lg" onclick="app.navigate('simulator')">
+                                Simular agora
+                            </button>
+                            <button class="btn btn-gf-outline" onclick="app.navigate('about')">
+                                Como calculamos?
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="bg-white rounded-4 shadow-sm p-4 border">
+                            <h5 class="mb-3">Por que usar o GreenFlow?</h5>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex align-items-start mb-3">
+                                    <span class="text-primary-gf me-2 mt-1">✓</span>
+                                    <span>Você vê a projeção da economia ao longo dos anos, sem enrolação</span>
+                                </li>
+                                <li class="d-flex align-items-start mb-3">
+                                    <span class="text-primary-gf me-2 mt-1">✓</span>
+                                    <span>Nada de termos técnicos — a gente traduz tudo pra linguagem do dia a dia</span>
+                                </li>
+                                <li class="d-flex align-items-start">
+                                    <span class="text-primary-gf me-2 mt-1">✓</span>
+                                    <span>Mostramos quanto de CO₂ você deixaria de jogar na atmosfera</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Como funciona -->
+            <div class="container py-5">
+                <h2 class="mb-2">Como funciona</h2>
+                <p class="text-muted mb-4">O processo é bem simples, são só 3 etapas:</p>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="bg-white rounded-3 shadow-sm border p-4 h-100">
+                            <span class="badge rounded-pill mb-3" style="background-color: var(--gf-green-light); color: var(--gf-green-dark); font-size: 0.9rem;">Passo 1</span>
+                            <h5>Informe sua conta</h5>
+                            <p class="text-muted small mb-0">Coloque o valor médio que você paga na conta de luz todo mês.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="bg-white rounded-3 shadow-sm border p-4 h-100">
+                            <span class="badge rounded-pill mb-3" style="background-color: rgba(245,176,65,0.15); color: var(--gf-gold-dark); font-size: 0.9rem;">Passo 2</span>
+                            <h5>A gente calcula</h5>
+                            <p class="text-muted small mb-0">Usamos tarifas reais de concessionárias e dados de mercado pra dimensionar o sistema solar ideal.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="bg-white rounded-3 shadow-sm border p-4 h-100">
+                            <span class="badge rounded-pill mb-3" style="background-color: var(--gf-green-light); color: var(--gf-green-dark); font-size: 0.9rem;">Passo 3</span>
+                            <h5>Veja o resultado</h5>
+                            <p class="text-muted small mb-0">Você recebe um relatório com o tempo de payback, a economia mensal e o impacto ambiental.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SIMULATOR VIEW ================= -->
+        <section id="view-simulator" class="spa-view pt-5 pb-5 bg-light min-vh-100">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="text-center mb-4">
+                            <h2>Simulador de Payback</h2>
+                            <p class="text-muted">Preencha os campos abaixo com os dados da sua conta de luz.</p>
+                        </div>
+
+                        <div class="gf-card p-4 p-md-5">
+                            <form id="simulator-form" onsubmit="app.calculateResults(event)">
+                                
+                                <div class="mb-4">
+                                    <label class="form-label-gf">
+                                        Valor médio da conta de luz (R$)
+                                    </label>
+                                    <input type="number" class="form-control form-control-gf" id="input-conta" placeholder="Ex: 350" required min="50" step="0.01">
+                                    <div class="form-text mt-2">Dica: pegue a média dos últimos 3 meses pra ficar mais fiel.</div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label-gf">
+                                        Concessionária da sua região
+                                    </label>
+                                    <select class="form-control form-control-gf" id="input-tarifa">
+                                        <option value="0.95">Média Nacional (~R$ 0,95/kWh)</option>
+                                        <option value="1.05">CPFL Paulista (~R$ 1,05/kWh)</option>
+                                        <option value="0.85">Enel SP (~R$ 0,85/kWh)</option>
+                                        <option value="0.90">Cemig (~R$ 0,90/kWh)</option>
+                                        <option value="0.88">Copel (~R$ 0,88/kWh)</option>
+                                    </select>
+                                    <div class="form-text mt-2">Se não souber, pode deixar na média nacional mesmo.</div>
+                                </div>
+
+                                <div class="alert border-0 text-dark rounded-3 mb-4" style="background-color: var(--gf-green-light);">
+                                    <small><strong>Sobre o cálculo:</strong> consideramos uma redução de ~75% na conta de luz, que é a média real pra quem instala energia solar fotovoltaica conectada à rede (os 25% restantes são taxas fixas da concessionária).</small>
+                                </div>
+
+                                <button type="submit" class="btn btn-gf-primary w-100 py-3">
+                                    Calcular meu payback
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= RESULTS VIEW ================= -->
+        <section id="view-result" class="spa-view pt-4 pb-5 bg-light min-vh-100">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                    <div>
+                        <h2>Resultado da Simulação</h2>
+                        <p class="text-muted mb-0">Conta mensal considerada: <strong id="res-conta-base">R$ 0,00</strong></p>
+                    </div>
+                    <button class="btn btn-gf-outline" onclick="app.navigate('simulator')">
+                        Simular de novo
+                    </button>
+                </div>
+
+                <!-- Resumo -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="gf-card text-center p-4">
+                            <div class="metric-label">Investimento Estimado</div>
+                            <div class="metric-value mt-2" id="res-investimento">R$ 0k</div>
+                            <small class="text-muted">Custo do sistema instalado</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="gf-card text-center p-4">
+                            <div class="metric-label">Economia Mensal</div>
+                            <div class="metric-value mt-2 text-success" id="res-economia-mes">R$ 0</div>
+                            <small class="text-muted">Redução de ~75%</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="gf-card text-center p-4">
+                            <div class="metric-label">Tempo de Payback</div>
+                            <div class="metric-value mt-2 text-primary-gf" id="res-payback">0 Anos</div>
+                            <small class="text-muted">Retorno do investimento</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="gf-card text-center p-4">
+                            <div class="metric-label">CO₂ Evitado/Ano</div>
+                            <div class="metric-value mt-2 text-gold-gf" id="res-co2">0 kg</div>
+                            <small class="text-muted">Pegada de carbono reduzida</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráfico e Detalhes -->
+                <div class="row g-4">
+                    <div class="col-lg-8">
+                        <div class="gf-card">
+                            <h5 class="mb-4">Acúmulo Financeiro (Próximos 10 anos)</h5>
+                            <div class="chart-container">
+                                <canvas id="paybackChart"></canvas>
+                            </div>
+                            <p class="text-muted small mt-3 text-center">
+                                O ponto onde a linha verde (Economia) cruza a linha tracejada (Investimento) é o momento exato em que seu sistema se pagou.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="gf-card">
+                            <h5 class="mb-4">Entendendo os números</h5>
+                            
+                            <div class="mb-4">
+                                <h6 class="fw-bold">No seu bolso</h6>
+                                <p class="small text-muted">
+                                    Depois que o sistema se paga, a energia que ele gera vira economia pura. Considerando a vida útil de 20 anos dos painéis, você economizaria cerca de <strong id="res-economia-20a" class="text-dark">R$ 0,00</strong> no total.
+                                </p>
+                            </div>
+
+                            <div class="mb-4">
+                                <h6 class="fw-bold">Pro meio ambiente</h6>
+                                <p class="small text-muted">
+                                    O CO₂ que você deixaria de emitir equivale a plantar <strong id="res-arvores" class="text-dark">0</strong> árvores por ano. Parece pouco, mas multiplicado por milhares de casas, faz uma diferença enorme.
+                                </p>
+                            </div>
+
+                            <hr class="my-4">
+                            <p class="small text-muted text-center mb-3">
+                                Salvar no banco de dados:
+                            </p>
+                            <button class="btn btn-gf-primary w-100" onclick="app.saveSimulation()">
+                                Salvar simulação
+                            </button>
+                            <div id="save-feedback" class="mt-2 text-center small text-success d-none">
+                                Dados salvos com sucesso!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ABOUT VIEW ================= -->
+        <section id="view-about" class="spa-view pt-5 pb-5" style="background-color: #f4f7f5;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="text-center mb-5">
+                            <h2>Sobre o GreenFlow</h2>
+                            <p class="lead text-muted">TI Verde na prática: conscientização e economia de forma acessível.</p>
+                        </div>
+
+                        <div class="bg-white rounded-4 shadow-sm p-4 p-md-5 mb-5">
+                            <h4 class="mb-3">O Projeto</h4>
+                            <p>
+                                O GreenFlow nasceu da necessidade de traduzir números complexos de engenharia elétrica em informações fáceis de entender. Muitas pessoas querem adotar energia renovável, mas esbarram na dificuldade de calcular se o investimento realmente vale a pena.
+                            </p>
+                            <p>
+                                Nosso objetivo é <strong>democratizar o acesso a essas informações</strong>, criando uma interface web estilo SPA (Single Page Application) limpa e intuitiva, servindo como um guia direto para tomadas de decisão inteligentes sobre o uso de energia.
+                            </p>
+                            
+                            <h5 class="mt-4 mb-3">Metodologia</h5>
+                            <p class="small text-muted mb-0">
+                                Os cálculos consideram uma redução média de <strong>75%</strong> na conta de luz para sistemas fotovoltaicos conectados à rede (devido a taxas mínimas e iluminação pública). O dimensionamento de custos baseia-se em médias de mercado atualizadas. A estimativa de CO₂ evitado considera a matriz energética brasileira média.
+                            </p>
+                        </div>
+
+                        <h4 class="mb-4">Desenvolvido por</h4>
+                        <div class="row g-3 mb-5">
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="d-flex align-items-center bg-white p-3 rounded-3 shadow-sm border h-100">
+                                    <div class="me-3 flex-shrink-0">
+                                        <img src="img/avatar_samuel.png" alt="Samuel Cardoso de Oliveira" class="rounded-circle border" style="width: 56px; height: 56px; object-fit: cover; border-color: var(--gf-green-light) !important; border-width: 3px !important;">
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0" style="font-size: 0.9rem; font-family: var(--gf-font-body);">Samuel Cardoso de Oliveira</h6>
+                                        <small class="text-muted">Desenvolvedor Full-Stack</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="d-flex align-items-center bg-white p-3 rounded-3 shadow-sm border h-100">
+                                    <div class="me-3 flex-shrink-0">
+                                        <img src="img/avatar_nicolas.png" alt="Nicolas Dos Santos Stefani" class="rounded-circle border" style="width: 56px; height: 56px; object-fit: cover; border-color: var(--gf-green-light) !important; border-width: 3px !important;">
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0" style="font-size: 0.9rem; font-family: var(--gf-font-body);">Nicolas Dos Santos Stefani</h6>
+                                        <small class="text-muted">Desenvolvedor Full-Stack</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="d-flex align-items-center bg-white p-3 rounded-3 shadow-sm border h-100">
+                                    <div class="me-3 flex-shrink-0">
+                                        <img src="img/avatar_matheus.png" alt="Matheus Garcia Fantin" class="rounded-circle border" style="width: 56px; height: 56px; object-fit: cover; border-color: var(--gf-green-light) !important; border-width: 3px !important;">
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0" style="font-size: 0.9rem; font-family: var(--gf-font-body);">Matheus Garcia Fantin</h6>
+                                        <small class="text-muted">Desenvolvedor Full-Stack</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ -->
+                        <h4 class="mb-4">Perguntas Frequentes</h4>
+                        <div class="accordion" id="faqAccordion">
+                            <div class="accordion-item border-0 mb-3 rounded-3 shadow-sm overflow-hidden">
+                                <h2 class="accordion-header" style="font-family: var(--gf-font-body);">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" style="font-family: var(--gf-font-body); font-weight: 500; color: var(--gf-text-main);">
+                                        Como o GreenFlow calcula o payback?
+                                    </button>
+                                </h2>
+                                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body text-muted">
+                                        O simulador estima o custo de instalação de um sistema fotovoltaico com base no seu consumo mensal de energia. Com a economia de ~75% na conta de luz (média real do mercado), calculamos quanto tempo leva para o valor investido retornar integralmente para o seu bolso.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border-0 mb-3 rounded-3 shadow-sm overflow-hidden">
+                                <h2 class="accordion-header" style="font-family: var(--gf-font-body);">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" style="font-family: var(--gf-font-body); font-weight: 500; color: var(--gf-text-main);">
+                                        Por que a economia não é de 100%?
+                                    </button>
+                                </h2>
+                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body text-muted">
+                                        Mesmo com energia solar, a conta de luz não zera completamente. Existe a taxa mínima de disponibilidade cobrada pela concessionária e a contribuição de iluminação pública (CIP), que continuam sendo cobradas. Por isso, usamos 75% como média de redução.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border-0 mb-3 rounded-3 shadow-sm overflow-hidden">
+                                <h2 class="accordion-header" style="font-family: var(--gf-font-body);">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" style="font-family: var(--gf-font-body); font-weight: 500; color: var(--gf-text-main);">
+                                        Como é calculado o CO₂ evitado?
+                                    </button>
+                                </h2>
+                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body text-muted">
+                                        Utilizamos o fator de emissão médio da matriz energética brasileira (~0,082 kg de CO₂ por kWh). Multiplicamos esse fator pela quantidade de energia que o sistema solar gera, substituindo a energia que viria de fontes convencionais.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item border-0 mb-3 rounded-3 shadow-sm overflow-hidden">
+                                <h2 class="accordion-header" style="font-family: var(--gf-font-body);">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" style="font-family: var(--gf-font-body); font-weight: 500; color: var(--gf-text-main);">
+                                        Os valores são exatos?
+                                    </button>
+                                </h2>
+                                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body text-muted">
+                                        Os resultados são estimativas baseadas em médias de mercado. Para um orçamento preciso, recomendamos consultar uma empresa de energia solar da sua região, que avaliará fatores como inclinação do telhado, sombreamento e orientação geográfica.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-gf text-center">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-center mb-3">
+                <i class="ph-fill ph-leaf fs-3 me-2"></i>
+                <h4 class="mb-0" style="color: white;">GreenFlow</h4>
+            </div>
+            <p class="small mb-0">Projeto Acadêmico UPX - FACENS</p>
+            <p class="small mt-2 opacity-75">Simulador de Payback para Energia Solar Fotovoltaica</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom SPA Logic -->
+    <script src="js/app.js"></script>
+</body>
+</html>
