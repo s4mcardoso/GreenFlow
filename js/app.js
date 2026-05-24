@@ -68,6 +68,10 @@ const app = {
         // Pegar valores do formulário
         const valorConta = parseFloat(document.getElementById('input-conta').value);
         const tarifa = parseFloat(document.getElementById('input-tarifa').value);
+        
+        // Dados do Veículo Elétrico (EV)
+        const hasEV = document.getElementById('input-ev-toggle').checked;
+        const evKm = parseFloat(document.getElementById('input-ev-km').value) || 0;
 
         if (isNaN(valorConta) || valorConta <= 0) {
             alert('Por favor, insira um valor válido para a conta.');
@@ -76,33 +80,45 @@ const app = {
 
         // 1. Cálculos Base
         // Consumo em kWh = Valor / Tarifa
-        const consumoMensalKwh = valorConta / tarifa;
+        let consumoMensalKwh = valorConta / tarifa;
         
-        // 2. Economia Mensal (75% de redução conforme relatório)
-        const economiaMensal = valorConta * 0.75;
+        // Cálculo adicional do EV
+        let custoEVMensal = 0;
+        if (hasEV && evKm > 0) {
+            // Média de 0.18 kWh consumidos por km rodado
+            const consumoEVMensalKwh = evKm * 0.18;
+            custoEVMensal = consumoEVMensalKwh * tarifa;
+            
+            // Adiciona o consumo extra no consumo mensal para dimensionar o sistema solar
+            consumoMensalKwh += consumoEVMensalKwh;
+        }
+
+        // Nova conta base projetada (com o custo adicional do EV, se houver)
+        const valorContaProjetada = valorConta + custoEVMensal;
+
+        // 2. Economia Mensal (75% de redução sobre a conta projetada, pois o sistema cobrirá esse excedente)
+        const economiaMensal = valorContaProjetada * 0.75;
         const economiaAnual = economiaMensal * 12;
 
-        // 3. Custo de Instalação (Estimativa grosseira baseada no mercado)
-        // Para cada 100 kWh de consumo, ~R$ 3.500 a R$ 4.500 de custo. 
-        // Vamos usar uma aproximação: custo médio = R$ 40 por kWh/mês de consumo
+        // 3. Custo de Instalação (Estimativa baseada no consumo TOTAL dimensionado)
+        // Aproximação: custo médio = R$ 40 por kWh/mês de consumo
         const investimento = consumoMensalKwh * 40;
 
         // 4. Payback (Anos) = Investimento / Economia Anual
         const paybackAnos = investimento / economiaAnual;
         
         // 5. Impacto Ambiental
-        // Fator de emissão médio no Brasil (pode variar, usamos ~0.082 kg CO2 / kWh)
-        // Só conta a parte economizada (75%)
+        // Fator de emissão médio no Brasil (~0.082 kg CO2 / kWh)
         const co2EvitadoMes = (consumoMensalKwh * 0.75) * 0.082;
         const co2EvitadoAno = co2EvitadoMes * 12;
-        const arvoresPorAno = Math.round(co2EvitadoAno / 20); // 1 árvore madura absorve ~20kg de CO2/ano
+        const arvoresPorAno = Math.round(co2EvitadoAno / 20); // 1 árvore absorve ~20kg de CO2/ano
 
         // Economia em 20 anos
         const economia20Anos = economiaAnual * 20;
 
         // Salvar em memória
         this.currentSimulation = {
-            contaBase: valorConta,
+            contaBase: valorContaProjetada,
             investimento: investimento,
             economiaMensal: economiaMensal,
             economiaAnual: economiaAnual,
@@ -111,7 +127,7 @@ const app = {
         };
 
         // Renderizar na tela
-        this.renderResults(valorConta, investimento, economiaMensal, paybackAnos, co2EvitadoAno, economia20Anos, arvoresPorAno);
+        this.renderResults(valorContaProjetada, investimento, economiaMensal, paybackAnos, co2EvitadoAno, economia20Anos, arvoresPorAno);
 
         // Renderizar Gráfico
         this.renderChart(investimento, economiaAnual);

@@ -152,6 +152,25 @@
                                     <div class="form-text mt-2">Se não souber, pode deixar na média nacional mesmo.</div>
                                 </div>
 
+                                <div class="mb-4">
+                                    <div class="form-check form-switch d-flex align-items-center gap-2 mb-2">
+                                        <input class="form-check-input mt-0" type="checkbox" role="switch" id="input-ev-toggle" onchange="document.getElementById('ev-options').classList.toggle('d-none')" style="width: 2.5em; height: 1.25em; cursor: pointer;">
+                                        <label class="form-check-label form-label-gf mb-0" for="input-ev-toggle" style="cursor: pointer; padding-top: 2px;">
+                                            Possui ou planeja ter um carro elétrico?
+                                        </label>
+                                    </div>
+                                    <div id="ev-options" class="d-none mt-3 p-3 rounded-3" style="background-color: rgba(43, 122, 75, 0.05); border: 1px solid rgba(43, 122, 75, 0.15);">
+                                        <label class="form-label-gf small">
+                                            Quilometragem mensal estimada (km)
+                                        </label>
+                                        <input type="number" class="form-control form-control-gf bg-white" id="input-ev-km" placeholder="Ex: 1000" min="0" step="10">
+                                        <div class="form-text mt-2 text-muted" style="font-size: 0.85rem;">
+                                            <i class="ph-fill ph-lightning me-1" style="color: var(--gf-gold-main);"></i>
+                                            Em média, um carro elétrico consome <strong>0,18 kWh por km rodado</strong>. Calcularemos o aumento na sua conta com base nisso.
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="alert border-0 text-dark rounded-3 mb-4" style="background-color: var(--gf-green-light);">
                                     <small><strong>Sobre o cálculo:</strong> consideramos uma redução de ~75% na conta de luz, que é a média real pra quem instala energia solar fotovoltaica conectada à rede (os 25% restantes são taxas fixas da concessionária).</small>
                                 </div>
